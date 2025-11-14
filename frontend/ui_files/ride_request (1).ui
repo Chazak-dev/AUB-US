@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1201</width>
+    <height>801</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>AUBus - Ride Request</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgba(170, 255, 255, 200);</string>
+  </property>
+  <widget class="QWidget" name="requestCard" native="true">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>100</y>
+     <width>800</width>
+     <height>651</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+     background-color: white;
+     border-radius: 25px;
+     border: 4px solid #FFA500;
+    </string>
+   </property>
+   <widget class="QLabel" name="requestHeader">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>20</y>
+      <width>700</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      font: 63 22pt &quot;Sitka Heading Semibold&quot;;
+      color: black;
+      background-color: rgb(255, 245, 157);
+      border-radius: 15px;
+      padding: 10px;
+     </string>
+    </property>
+    <property name="text">
+     <string>🚨 NEW RIDE REQUEST</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="timerLabel">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>100</y>
+      <width>700</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      font: 63 14pt &quot;Sitka Heading Semibold&quot;;
+      color: #FF0000;
+     </string>
+    </property>
+    <property name="text">
+     <string> 30 seconds to respond</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="passengerInfo">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>160</y>
+      <width>700</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      font: 63 14pt &quot;Sitka Heading Semibold&quot;;
+      color: black;
+      background-color: #f0f8ff;
+      border-radius: 15px;
+      padding: 15px;
+     </string>
+    </property>
+    <property name="text">
+     <string>👤 Sarah Johnson\n⭐ 4.9/5 Rating</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="rideDetails">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>280</y>
+      <width>700</width>
+      <height>120</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      font: 63 8pt &quot;Sitka Heading Semibold&quot;;
+      color: black;
+      background-color: #f9f9f9;
+      border-radius: 15px;
+      padding: 15px;
+     </string>
+    </property>
+    <property name="text">
+     <string>📍 Pickup: Hamra Street\n🎯 Destination: AUB Main Gate\n📏 Distance: 2.3 km\n💰 Estimated Fare: $8</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="mapPreview">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>420</y>
+      <width>700</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      background-color: #e8f4f8;
+      border-radius: 15px;
+      border: 2px dashed #cccccc;
+      font: 63 14pt &quot;Sitka Heading Semibold&quot;;
+      color: #666666;
+     </string>
+    </property>
+    <property name="text">
+     <string>🗺️ Route Map Preview</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="acceptButton">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>540</y>
+      <width>321</width>
+      <height>60</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      background-color: #4CAF50;
+      border-radius: 30px;
+      font: 63 16pt &quot;Sitka Heading Semibold&quot;;
+      color: white;
+     </string>
+    </property>
+    <property name="text">
+     <string>✅ ACCEPT RIDE</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="declineButton">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>540</y>
+      <width>311</width>
+      <height>60</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      background-color: #f44336;
+      border-radius: 30px;
+      font: 63 16pt &quot;Sitka Heading Semibold&quot;;
+      color: white;
+     </string>
+    </property>
+    <property name="text">
+     <string>❌ DECLINE RIDE</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

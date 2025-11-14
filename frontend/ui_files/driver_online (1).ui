@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1201</width>
+    <height>801</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>AUBus - Driver Online</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(170, 255, 255);</string>
+  </property>
+  <widget class="QLabel" name="headerLabel">
+   <property name="geometry">
+    <rect>
+     <x>280</x>
+     <y>60</y>
+     <width>621</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 63 24pt &quot;Sitka Heading Semibold&quot;; color: black;</string>
+   </property>
+   <property name="text">
+    <string>Driver Mode - Online</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="statusCard">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>150</y>
+     <width>600</width>
+     <height>400</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+     background-color: white;
+     border-radius: 20px;
+     border: 3px solid #4CAF50;
+     font: 63 16pt &quot;Sitka Heading Semibold&quot;;
+     padding: 20px;
+    </string>
+   </property>
+   <property name="text">
+    <string>🟢 ONLINE AND READY\n\n🔍 Looking for ride requests...\n\n📍 Your location is being shared\n\n👥 Available rides in your area: 3</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QListWidget" name="availableRidesList">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>570</y>
+     <width>600</width>
+     <height>150</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+     background-color: white;
+     border-radius: 15px;
+     border: 2px solid #cccccc;
+     font: 10pt &quot;MS Shell Dlg 2&quot;;
+     padding: 10px;
+    </string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="goOfflineButton">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>750</y>
+     <width>271</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+     background-color: rgb(255, 100, 100);
+     border-radius: 25px;
+     font: 63 14pt &quot;Sitka Heading Semibold&quot;;
+     color: white;
+    </string>
+   </property>
+   <property name="text">
+    <string>Go Offline</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
