@@ -1,4 +1,4 @@
-from validator import validator
+from .validator import validator
 
 def handle_rating_submit(data, conn):
     """
@@ -63,7 +63,7 @@ def handle_rating_get(data, conn):
         cursor = conn.cursor()
         cursor.execute("""
             SELECT AVG(rating), COUNT(*)
-            FROM ride_ratings
+            from .ride_ratings
             WHERE target_id=? AND target_role=?
         """, (target_id, target_role))
         result = cursor.fetchone()
@@ -102,7 +102,7 @@ def handle_rating_history_get(data, conn):
         cursor = conn.cursor()
         cursor.execute("""
             SELECT request_id, rater_id, rating, comment, timestamp
-            FROM ride_ratings
+            from .ride_ratings
             WHERE target_id=? AND target_role=?
             ORDER BY timestamp DESC
             LIMIT ? OFFSET ?

@@ -1,6 +1,6 @@
 import hashlib
 
-from validator import validator
+from .validator import validator
 
 def handle_register(data, conn):
     try:

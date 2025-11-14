@@ -1,4 +1,4 @@
-from validator import validator
+from .validator import validator
 
 # These are read‑only queries, so they won’t modify the database,
 # just fetch information for the client.
@@ -42,7 +42,7 @@ def handle_ride_history_get(message, conn):
 
         # Build base query: rides where user is driver OR passenger
         query = """
-            SELECT * FROM rides
+            SELECT * from .rides
             WHERE (driver_id = ? OR passenger_id = ?)
         """
         params = [user_id, user_id]
@@ -106,7 +106,7 @@ def handle_driver_stats_get(message, conn):
             SELECT COUNT(*) as total_rides,
                    AVG(fare) as avg_fare,
                    SUM(fare) as total_earnings
-            FROM rides
+            from .rides
             WHERE driver_id = ? {time_filter}
         """
         cur.execute(query, (driver_id,))
@@ -140,7 +140,7 @@ def handle_passenger_stats_get(message, conn):
             SELECT COUNT(*) as total_rides,
                    AVG(fare) as avg_fare,
                    SUM(fare) as total_spent
-            FROM rides
+            from .rides
             WHERE passenger_id = ?
         """
         cur.execute(query, (passenger_id,))
@@ -171,7 +171,7 @@ def handle_active_rides_get(message, conn):
 
         cur = conn.cursor()
         query = """
-            SELECT * FROM rides
+            SELECT * from .rides
             WHERE (driver_id = ? OR passenger_id = ?)
             AND status = 'active'
         """

@@ -1,4 +1,4 @@
-from validator import validator
+from .validator import validator
 
 def handle_chat_message_send(data, conn):
     """

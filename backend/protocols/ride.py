@@ -1,4 +1,4 @@
-from validator import validator
+from .validator import validator
 
 # Locking is handled explicitly using RIDE_LOCK_ACQUIRE, RIDE_LOCK_RELEASE, and RIDE_ALREADY_TAKEN.
 # Ride lifecycle protocols (CREATE, ACCEPT, DECLINE, STATUS, COMPLETE, CANCEL) respect the lock state.
@@ -18,7 +18,7 @@ def handle_ride_lock_acquire(data, conn):
             return "ERROR|Invalid timestamp"
 
         cursor = conn.cursor()
-        cursor.execute("SELECT is_locked FROM ride_requests WHERE request_id=?", (request_id,))
+        cursor.execute("SELECT is_locked from .ride_requests WHERE request_id=?", (request_id,))
         result = cursor.fetchone()
         if result is None:
             return "ERROR|Request not found"
@@ -148,7 +148,7 @@ def handle_ride_request_notify_drivers(data, conn):
             return flag_check
 
         cursor = conn.cursor()
-        cursor.execute("SELECT is_locked FROM ride_requests WHERE request_id=?", (request_id,))
+        cursor.execute("SELECT is_locked from .ride_requests WHERE request_id=?", (request_id,))
         result = cursor.fetchone()
         if result and result[0]:
             return f"ERROR|Request {request_id} is locked"
@@ -182,7 +182,7 @@ def handle_ride_request_accept(data, conn):
             return "ERROR|Invalid acceptance_time"
 
         cursor = conn.cursor()
-        cursor.execute("SELECT is_locked, accepted_driver_id FROM ride_requests WHERE request_id=?", (request_id,))
+        cursor.execute("SELECT is_locked, accepted_driver_id from .ride_requests WHERE request_id=?", (request_id,))
         result = cursor.fetchone()
         if result is None:
             return "ERROR|Request not found"
@@ -222,7 +222,7 @@ def handle_ride_request_decline(data, conn):
             return "ERROR|Invalid request_id"
 
         cursor = conn.cursor()
-        cursor.execute("SELECT is_locked, accepted_driver_id FROM ride_requests WHERE request_id=?", (request_id,))
+        cursor.execute("SELECT is_locked, accepted_driver_id from .ride_requests WHERE request_id=?", (request_id,))
         result = cursor.fetchone()
         if result is None:
             return "ERROR|Request not found"
@@ -257,7 +257,7 @@ def handle_ride_request_expire(data, conn):
             return "ERROR|Invalid request_id"
 
         cursor = conn.cursor()
-        cursor.execute("SELECT status FROM ride_requests WHERE request_id=?", (request_id,))
+        cursor.execute("SELECT status from .ride_requests WHERE request_id=?", (request_id,))
         result = cursor.fetchone()
         if result is None:
             return "ERROR|Request not found"
@@ -293,7 +293,7 @@ def handle_ride_request_cancel(data, conn):
             return "ERROR|Invalid passenger_id"
 
         cursor = conn.cursor()
-        cursor.execute("SELECT status, passenger_id FROM ride_requests WHERE request_id=?", (request_id,))
+        cursor.execute("SELECT status, passenger_id from .ride_requests WHERE request_id=?", (request_id,))
         result = cursor.fetchone()
         if result is None:
             return "ERROR|Request not found"
@@ -332,7 +332,7 @@ def handle_ride_request_status(data, conn):
         cursor = conn.cursor()
         cursor.execute("""
             SELECT status, accepted_driver_id, acceptance_time, is_locked
-            FROM ride_requests WHERE request_id=?
+            from .ride_requests WHERE request_id=?
         """, (request_id,))
         result = cursor.fetchone()
         if result is None:
@@ -359,7 +359,7 @@ def handle_ride_request_complete(data, conn):
             return "ERROR|Invalid completion_time"
 
         cursor = conn.cursor()
-        cursor.execute("SELECT status, is_locked FROM ride_requests WHERE request_id=?", (request_id,))
+        cursor.execute("SELECT status, is_locked from .ride_requests WHERE request_id=?", (request_id,))
         result = cursor.fetchone()
         if result is None:
             return "ERROR|Request not found"
@@ -393,7 +393,7 @@ def handle_ride_cancel_active(data, conn):
             return "ERROR|Invalid request_id"
 
         cursor = conn.cursor()
-        cursor.execute("SELECT status, is_locked FROM ride_requests WHERE request_id=?", (request_id,))
+        cursor.execute("SELECT status, is_locked from .ride_requests WHERE request_id=?", (request_id,))
         result = cursor.fetchone()
         if result is None:
             return "ERROR|Request not found"
@@ -433,7 +433,7 @@ def handle_ride_status_update(data, conn):
             return "ERROR|Invalid request_id"
 
         cursor = conn.cursor()
-        cursor.execute("SELECT request_id FROM ride_requests WHERE request_id=?", (request_id,))
+        cursor.execute("SELECT request_id from .ride_requests WHERE request_id=?", (request_id,))
         if cursor.fetchone() is None:
             return "ERROR|Request not found"
 
@@ -469,7 +469,7 @@ def handle_ride_location_share(data, conn):
             return "ERROR|Invalid timestamp"
 
         cursor = conn.cursor()
-        cursor.execute("SELECT request_id FROM ride_requests WHERE request_id=?", (request_id,))
+        cursor.execute("SELECT request_id from .ride_requests WHERE request_id=?", (request_id,))
         if cursor.fetchone() is None:
             return "ERROR|Request not found"
 
@@ -507,7 +507,7 @@ def handle_ride_location_latest(data, conn):
         # Query the latest location entry for this ride
         cursor.execute("""
             SELECT latitude, longitude, timestamp, user_id
-            FROM ride_locations
+            from .ride_locations
             WHERE request_id=?
             ORDER BY timestamp DESC
             LIMIT 1
@@ -545,7 +545,7 @@ def handle_ride_location_history(data, conn):
         # Query all location entries for this ride
         cursor.execute("""
             SELECT latitude, longitude, timestamp, user_id
-            FROM ride_locations
+            from .ride_locations
             WHERE request_id=?
             ORDER BY timestamp ASC
         """, (request_id,))

@@ -1,6 +1,6 @@
 import base64
 import os
-from validator import validator
+from .validator import validator
 def handle_profile_create(data, conn):
     try:
         # Split message into expected fields
@@ -43,7 +43,7 @@ def handle_profile_create(data, conn):
             return "ERROR|Invalid photo path"
 
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM profiles WHERE user_id = ?", (user_id,))
+        cursor.execute("SELECT * from .profiles WHERE user_id = ?", (user_id,))
         result = cursor.fetchone()
 
         if result is not None:
@@ -74,7 +74,7 @@ def handle_profile_update(data, conn):
             return "ERROR|Invalid user ID"
 
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM profiles WHERE user_id = ?", (user_id,))
+        cursor.execute("SELECT * from .profiles WHERE user_id = ?", (user_id,))
         result = cursor.fetchone()
 
         if result is None:
@@ -137,7 +137,7 @@ def handle_profile_get(data, conn):
         cursor = conn.cursor()
         cursor.execute("""
             SELECT first_name, last_name, phone, area, is_driver, profile_photo_path
-            FROM profiles
+            from .profiles
             WHERE user_id = ?
         """, (user_id,))
         result = cursor.fetchone()
@@ -168,7 +168,7 @@ def handle_profile_photo_upload(data, conn):
             return "ERROR|Unsupported file extension"
 
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM profiles WHERE user_id=?", (user_id,))
+        cursor.execute("SELECT * from .profiles WHERE user_id=?", (user_id,))
         result = cursor.fetchone()
 
         if result is None:

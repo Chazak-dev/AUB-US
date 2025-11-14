@@ -1,4 +1,4 @@
-from validator import validator
+from .validator import validator
 
 def handle_driver_availability_set(message, conn):
     """
@@ -78,7 +78,7 @@ def handle_driver_availability_get(message, conn):
     # Fetch the availability flag for the given driver
     cur.execute("""
         SELECT availability
-        FROM drivers
+        from .drivers
         WHERE id = ?
     """, (driver_id,))
     row = cur.fetchone()
@@ -113,7 +113,7 @@ def handle_active_drivers_get(message, conn):
     # Retrieve minimal driver info for those online
     cur.execute("""
         SELECT id, name, vehicle
-        FROM drivers
+        from .drivers
         WHERE availability = 1
         ORDER BY id ASC
     """)

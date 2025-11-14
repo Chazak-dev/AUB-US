@@ -1,6 +1,6 @@
 import json
 
-from validator import validator
+from .validator import validator
 
 def handle_driver_schedule_save(data, conn):
     try:
@@ -20,7 +20,7 @@ def handle_driver_schedule_save(data, conn):
         cursor = conn.cursor()
 
         # Clear old schedule for this driver
-        cursor.execute("DELETE FROM driver_schedules WHERE user_id=?", (user_id,))
+        cursor.execute("DELETE from .driver_schedules WHERE user_id=?", (user_id,))
 
         # Insert each day's schedule
         for day, info in schedule.items():
@@ -59,7 +59,7 @@ def handle_driver_car_info_save(data, conn):
             return car_check
 
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM driver_cars WHERE user_id=?", (user_id,))
+        cursor.execute("SELECT * from .driver_cars WHERE user_id=?", (user_id,))
         result = cursor.fetchone()
 
         if result:
@@ -99,7 +99,7 @@ def handle_driver_route_save(data, conn):
             return location_check
 
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM driver_routes WHERE user_id=?", (user_id,))
+        cursor.execute("SELECT * from .driver_routes WHERE user_id=?", (user_id,))
         result = cursor.fetchone()
 
         if result:
@@ -141,7 +141,7 @@ def handle_driver_online(data, conn):
             return "ERROR|Invalid longitude"
 
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM driver_status WHERE user_id=?", (user_id,))
+        cursor.execute("SELECT * from .driver_status WHERE user_id=?", (user_id,))
         result = cursor.fetchone()
 
         if result:

@@ -1,4 +1,4 @@
-from validator import validator
+from .validator import validator
 
 def handle_notification_send(message, conn):
     """
@@ -103,14 +103,14 @@ def handle_notification_clear(message, conn):
         cur = conn.cursor()
 
         if clear_type == "all":
-            cur.execute("DELETE FROM notifications WHERE user_id = ?", (user_id,))
+            cur.execute("DELETE from .notifications WHERE user_id = ?", (user_id,))
         elif clear_type == "read":
-            cur.execute("DELETE FROM notifications WHERE user_id = ? AND is_read = 1", (user_id,))
+            cur.execute("DELETE from .notifications WHERE user_id = ? AND is_read = 1", (user_id,))
         elif clear_type == "by_date":
             date = extra[0] if extra else None
             if not date or not validator.validate_timestamp(date):
                 return "NOTIFICATION_CLEAR|ERROR|Invalid date"
-            cur.execute("DELETE FROM notifications WHERE user_id = ? AND created_at < ?", (user_id, date))
+            cur.execute("DELETE from .notifications WHERE user_id = ? AND created_at < ?", (user_id, date))
         else:
             return "NOTIFICATION_CLEAR|ERROR|Invalid clear_type"
 
