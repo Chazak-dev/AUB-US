@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>AUBus - Active Ride (Driver)</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(170, 255, 255);</string>
+  </property>
+  <widget class="QLabel" name="headerLabel">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>20</y>
+     <width>551</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 63 24pt &quot;Sitka Heading Semibold&quot;; color: black;</string>
+   </property>
+   <property name="text">
+    <string>Active Ride - Driver</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="statusLabel">
+   <property name="geometry">
+    <rect>
+     <x>89</x>
+     <y>80</y>
+     <width>1021</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+     font: 63 12pt &quot;Sitka Heading Semibold&quot;;
+     background-color: white;
+     border-radius: 10px;
+     padding: 10px;
+     color: black;
+    </string>
+   </property>
+   <property name="text">
+    <string>📍 Driving to pickup - ETA: calculating</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QWidget" name="passengerContainer" native="true">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>150</y>
+     <width>361</width>
+     <height>581</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+     background-color: white;
+     border-radius: 15px;
+     border: 2px solid #cccccc;
+    </string>
+   </property>
+   <widget class="QLabel" name="passengerHeader">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>330</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      font: 63 14pt &quot;Sitka Heading Semibold&quot;;
+      color: black;
+      background-color: rgb(251, 201, 255);
+      border-radius: 10px;
+      padding: 5px;
+     </string>
+    </property>
+    <property name="text">
+     <string>👤 Passenger Details</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="passengerInfo">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>70</y>
+      <width>330</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      font: 63 9pt &quot;Sitka Heading Semibold&quot;;
+      color: black;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      padding: 10px;
+     </string>
+    </property>
+    <property name="text">
+     <string>Loading passenger info...</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="navigationSteps">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>199</y>
+      <width>330</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      font: 63 8pt &quot;Sitka Heading Semibold&quot;;
+      color: black;
+      background-color: #f0f8ff;
+      border-radius: 10px;
+      padding: 15px;
+     </string>
+    </property>
+    <property name="text">
+     <string>
+1. 🚗 Drive to pickup
+2. 👋 Pick up passenger
+3. 🎯 Drive to destination
+4. ✅ Complete ride</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="arrivedButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>330</y>
+      <width>330</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      background-color: #FFA500;
+      border-radius: 25px;
+      font: 63 12pt &quot;Sitka Heading Semibold&quot;;
+      color: white;
+     </string>
+    </property>
+    <property name="text">
+     <string>📍 I've Arrived at Pickup</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="startRideButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>390</y>
+      <width>330</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      background-color: #4CAF50;
+      border-radius: 25px;
+      font: 63 12pt &quot;Sitka Heading Semibold&quot;;
+      color: white;
+     </string>
+    </property>
+    <property name="text">
+     <string>🚀 Start Ride to Destination</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="completeRideButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>450</y>
+      <width>330</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      background-color: #2196F3;
+      border-radius: 25px;
+      font: 63 12pt &quot;Sitka Heading Semibold&quot;;
+      color: white;
+     </string>
+    </property>
+    <property name="text">
+     <string>✅ Complete Ride</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="earningsLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>510</y>
+      <width>330</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      font: 63 14pt &quot;Sitka Heading Semibold&quot;;
+      color: black;
+      background-color: #e8f5e8;
+      border-radius: 10px;
+      padding: 5px;
+     </string>
+    </property>
+    <property name="text">
+     <string>💰 Estimated Earnings: Calculating...</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="mapChatContainer" native="true">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>150</y>
+     <width>650</width>
+     <height>581</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+     background-color: white;
+     border-radius: 15px;
+     border: 2px solid #cccccc;
+    </string>
+   </property>
+   <widget class="QWidget" name="mapContainer" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>630</width>
+      <height>301</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      background-color: #e8f4f8;
+      border-radius: 10px;
+      border: 1px solid #cccccc;
+     </string>
+    </property>
+    <layout class="QVBoxLayout" name="mapLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+    </layout>
+   </widget>
+   <widget class="QLabel" name="chatHeader">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>319</y>
+      <width>630</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      font: 63 14pt &quot;Sitka Heading Semibold&quot;;
+      color: black;
+      background-color: rgb(251, 201, 255);
+      border-radius: 10px;
+      padding: 5px;
+     </string>
+    </property>
+    <property name="text">
+     <string>💬 Chat with Passenger</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="messageDisplay">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>370</y>
+      <width>630</width>
+      <height>120</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      background-color: #f9f9f9;
+      border: 1px solid #dddddd;
+      border-radius: 10px;
+      padding: 10px;
+      font: 10pt &quot;MS Shell Dlg 2&quot;;
+     </string>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+    <property name="html">
+     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:10px; margin-bottom:10px; margin-left:10px; margin-right:10px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#666666;&quot;&gt;Chat ready - waiting for connection&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="messageInput">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>500</y>
+      <width>470</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      background-color: white;
+      border: 1px solid #cccccc;
+      border-radius: 10px;
+      padding: 5px 10px;
+      font: 10pt &quot;MS Shell Dlg 2&quot;;
+     </string>
+    </property>
+    <property name="placeholderText">
+     <string>Type message to passenger...</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sendButton">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>500</y>
+      <width>150</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+      background-color: rgb(251, 201, 255);
+      border-radius: 10px;
+      font: 63 10pt &quot;Sitka Heading Semibold&quot;;
+     </string>
+    </property>
+    <property name="text">
+     <string>Send Message</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="backButton">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>30</y>
+     <width>100</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+     background-color: rgb(251, 201, 255);
+     border-radius: 10px;
+     font: 63 10pt &quot;Sitka Heading Semibold&quot;;
+    </string>
+   </property>
+   <property name="text">
+    <string>← Back</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

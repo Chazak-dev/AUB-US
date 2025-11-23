@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1201</width>
+    <height>801</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>AUBus</string>
+  </property>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1201</width>
+     <height>801</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+QWidget#widget {
+    background-color: qlineargradient(
+        spread:pad, x1:0.1, y1:0.1, x2:0.9, y2:0.9,
+        stop:0 rgba(10, 158, 190, 255),
+        stop:1 rgba(170, 255, 255, 255)
+    );
+}
+QPushButton {
+    background-color: rgb(251, 201, 255);
+    color: black;
+    border-radius: 40px;
+    border: 2px solid #cccccc;
+    min-width: 250px;
+    min-height: 80px;
+    font: 63 12pt &quot;Sitka Heading Semibold&quot;;
+}
+QPushButton:hover {
+    background-color: #e6f7ff;
+}
+QPushButton:pressed {
+    background-color: #b3ecff;
+}
+QLabel {
+    color: black;
+    font: 63 10pt &quot;Sitka Heading Semibold&quot;;
+}
+QLineEdit {
+    background-color: white;
+    border-radius: 20px;
+    border: 2px solid #cccccc;
+    padding: 8px;
+    font: 10pt &quot;Segoe UI&quot;;
+    min-height: 40px;
+}
+    </string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <spacer name="verticalSpacerTop">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>80</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label">
+      <property name="styleSheet">
+       <string notr="true">
+font: 63 48pt &quot;Sitka Heading Semibold&quot;;
+color: black;
+       </string>
+      </property>
+      <property name="text">
+       <string>LOGIN</string>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_2">
+      <property name="styleSheet">
+       <string notr="true">
+font: 63 14pt &quot;Sitka Heading Semibold&quot;;
+color: black;
+       </string>
+      </property>
+      <property name="text">
+       <string>Sign in to your existing account</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="spacer1">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>50</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>AUB Username</string>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLineEdit" name="emailfield">
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>60</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>300</width>
+        <height>40</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="spacer2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>Password</string>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLineEdit" name="passwordfield">
+      <property name="minimumSize">
+       <size>
+        <width>300</width>
+        <height>60</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>300</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="spacer3">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>30</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="error">
+      <property name="styleSheet">
+       <string notr="true">color:rgb(255, 0, 0); font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QPushButton" name="login">
+      <property name="minimumSize">
+       <size>
+        <width>254</width>
+        <height>84</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>250</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Log in</string>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QPushButton" name="backButtonLogin">
+      <property name="minimumSize">
+       <size>
+        <width>254</width>
+        <height>84</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgba(255, 255, 255, 150); border-radius: 15px; font: 63 10pt &quot;Sitka Heading Semibold&quot;;</string>
+      </property>
+      <property name="text">
+       <string>← Back</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="spacerSignupLink">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>10</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="signupLink">
+      <property name="styleSheet">
+       <string notr="true">color: black; font: 63 10pt &quot;Sitka Heading Semibold&quot;; text-decoration: underline;</string>
+      </property>
+      <property name="text">
+       <string>Don't have an account? Sign up</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacerBottom">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>100</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
