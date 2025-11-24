@@ -329,7 +329,7 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="styleSheet">
      <string notr="true">
-      font: 63 9pt &quot;Sitka Heading Semibold&quot;;
+      font: 63 7pt &quot;Sitka Heading Semibold&quot;;
       color: black;
       background-color: #f0f0f0;
       border-radius: 10px;

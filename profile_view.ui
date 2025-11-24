@@ -93,7 +93,7 @@
      </string>
     </property>
     <property name="text">
-     <string>👤 John Doe</string>
+     <string>👤 </string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -118,7 +118,7 @@
      </string>
     </property>
     <property name="text">
-     <string>📧 Email: john.doe@mail.aub.edu</string>
+     <string>📧 Email: </string>
     </property>
    </widget>
    <widget class="QLabel" name="phoneLabel">
@@ -140,7 +140,7 @@
      </string>
     </property>
     <property name="text">
-     <string>📞 Phone: +961 76 123 456</string>
+     <string>📞 Phone: </string>
     </property>
    </widget>
    <widget class="QLabel" name="addressLabel">
