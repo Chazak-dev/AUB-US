@@ -15,18 +15,27 @@ class P2PChat:
         self.peer_connection = None
         self.message_received_callback = None 
         self.receive_thread = None
+        self.connection_lock = threading.Lock()
 
     def start_chat_server(self, port=9000):
+        """Start P2P server to accept connections"""
         try:
             self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            self.server_socket.bind(('0.0.0.0', port))
+            
+            # If port is 0, let OS assign random port
+            if port == 0:
+                self.server_socket.bind(('0.0.0.0', 0))
+                self.server_port = self.server_socket.getsockname()[1]
+            else:
+                self.server_socket.bind(('0.0.0.0', port))
+                self.server_port = port
+                
             self.server_socket.listen(5)
-            self.server_socket.settimeout(1.0)  # Add timeout to allow clean shutdown
-            self.server_port = port
+            self.server_socket.settimeout(1.0)
             self.listening = True
 
-            print(f"✅ P2P Chat server listening on port {port}")
+            print(f"✅ P2P Chat server listening on port {self.server_port}")
 
             thread = threading.Thread(target=self._accept_connections, daemon=True)
             thread.start()
@@ -37,14 +46,17 @@ class P2PChat:
             return False
 
     def _accept_connections(self):
+        """Accept incoming P2P connections"""
         while self.listening:
             try:
                 conn, addr = self.server_socket.accept()
-                print(f"✅ P2P connected to {addr}")
-                self.peer_connection = conn
-                self.connected_to_peer = True
+                print(f"✅ P2P connection from {addr}")
                 
-                # Start receiving messages from this connection
+                with self.connection_lock:
+                    self.peer_connection = conn
+                    self.connected_to_peer = True
+                
+                # Start receiving messages
                 self.receive_thread = threading.Thread(
                     target=self._receive_messages, 
                     args=(conn,), 
@@ -55,12 +67,14 @@ class P2PChat:
             except socket.timeout:
                 continue
             except Exception as e:
-                if self.listening:  # Only print errors if we're supposed to be listening
+                if self.listening:
                     print(f"❌ Connection acceptance error: {e}")
                 break
 
     def _receive_messages(self, connection):
-        """Receive messages from a specific connection"""
+        """Receive messages from peer"""
+        buffer = ""
+        
         while self.connected_to_peer and self.listening:
             try:
                 data = connection.recv(4096).decode('utf-8')
@@ -69,27 +83,29 @@ class P2PChat:
                     self.connected_to_peer = False
                     break
                 
-                # Handle multiple JSON messages in case they get concatenated
-                messages = data.split('}{')
-                if len(messages) > 1:
-                    # Reconstruct proper JSON
-                    messages = [messages[0] + '}'] + ['{' + msg for msg in messages[1:-1]] + ['{' + messages[-1]]
-                else:
-                    messages = [data]
+                buffer += data
                 
-                for message_data in messages:
-                    try:
-                        message = json.loads(message_data)
-                        self._handle_chat_message(message)
-                    except json.JSONDecodeError:
-                        print(f"❌ Invalid JSON received: {message_data}")
+                # Process complete JSON messages
+                while '{' in buffer and '}' in buffer:
+                    start = buffer.find('{')
+                    end = buffer.find('}', start) + 1
+                    
+                    if start != -1 and end > start:
+                        message_str = buffer[start:end]
+                        buffer = buffer[end:]
                         
+                        try:
+                            message = json.loads(message_str)
+                            self._handle_chat_message(message)
+                        except json.JSONDecodeError as e:
+                            print(f"❌ JSON decode error: {e}")
+                            
             except ConnectionResetError:
                 print("❌ Peer connection reset")
                 self.connected_to_peer = False
                 break
             except Exception as e:
-                if self.connected_to_peer:  # Only log errors if we think we're connected
+                if self.connected_to_peer:
                     print(f"❌ Message receive error: {e}")
                 break
         
@@ -103,15 +119,15 @@ class P2PChat:
         print("✅ Message receiving stopped")
 
     def _handle_chat_message(self, message):
+        """Handle received chat message"""
         message_type = message.get('type')
-        sender = message.get('student', 'Unknown')
+        sender = message.get('student', message.get('driver', 'Unknown'))
         timestamp = message.get('time', 'now')
 
         if message_type == "chat_message":
             text = message.get('text', '')
             print(f"📨 {sender}: {text}")
 
-            # Call UI callback if set
             if self.message_received_callback:
                 self.message_received_callback(sender, text, timestamp)
 
@@ -123,8 +139,6 @@ class P2PChat:
             
         elif message_type == "location_message":
             self._handle_received_location(message)
-        else:
-            print(f"❓ Unknown message type: {message_type}")
 
     def _handle_received_image(self, message):
         try:
@@ -138,12 +152,11 @@ class P2PChat:
                 
             print(f"🖼️ {student} sent an image: {file_name}")
             
-            # Notify UI if callback is set
             if self.message_received_callback:
                 self.message_received_callback(student, f"[Image: {file_name}]", message.get('time', 'now'))
             
         except Exception as e:
-            print(f"❌ Failed to process received image: {e}")
+            print(f"❌ Failed to process image: {e}")
 
     def _handle_received_audio(self, message):
         try:
@@ -155,14 +168,13 @@ class P2PChat:
             with open(file_name, 'wb') as f:
                 f.write(audio_bytes)
                 
-            print(f"🎵 {student} sent a voice message: {file_name}")
+            print(f"🎵 {student} sent audio: {file_name}")
             
-            # Notify UI if callback is set
             if self.message_received_callback:
-                self.message_received_callback(student, f"[Voice Message: {file_name}]", message.get('time', 'now'))
+                self.message_received_callback(student, f"[Voice: {file_name}]", message.get('time', 'now'))
             
         except Exception as e:
-            print(f"❌ Failed to process received audio: {e}")
+            print(f"❌ Failed to process audio: {e}")
 
     def _handle_received_location(self, message):
         student = message.get('student', 'Unknown')
@@ -171,19 +183,21 @@ class P2PChat:
         
         print(f"📍 {student} shared location: {lat}, {lon}")
         
-        # Notify UI if callback is set
         if self.message_received_callback:
             self.message_received_callback(student, f"[Location: {lat}, {lon}]", message.get('time', 'now'))
 
     def connect_to_peer(self, peer_IP, peer_port):
+        """Connect to peer as client"""
         try:
             self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.client_socket.settimeout(5.0)  # 5 second timeout for connection
+            self.client_socket.settimeout(5.0)
             self.client_socket.connect((peer_IP, peer_port))
-            self.client_socket.settimeout(None)  # Remove timeout after connection
-            self.connected_to_peer = True
+            self.client_socket.settimeout(None)
             
-            # Start receiving messages from this connection
+            with self.connection_lock:
+                self.connected_to_peer = True
+            
+            # Start receiving from this connection
             self.receive_thread = threading.Thread(
                 target=self._receive_messages, 
                 args=(self.client_socket,), 
@@ -202,8 +216,9 @@ class P2PChat:
             return False
 
     def send_chat_message(self, text, student_name):
-        if not self.connected_to_peer or not self.client_socket:
-            print("❌ Not connected to any peer")
+        """Send chat message to peer"""
+        if not self.connected_to_peer:
+            print("❌ Not connected to peer")
             return False
 
         try:
@@ -215,8 +230,18 @@ class P2PChat:
             }
 
             json_message = json.dumps(message)
-            self.client_socket.send(json_message.encode('utf-8'))
-            print(f"✅ You: {text}")
+            
+            # Send via client socket or peer connection
+            with self.connection_lock:
+                if self.client_socket:
+                    self.client_socket.send(json_message.encode('utf-8'))
+                elif self.peer_connection:
+                    self.peer_connection.send(json_message.encode('utf-8'))
+                else:
+                    print("❌ No active connection")
+                    return False
+                    
+            print(f"✅ Sent: {text}")
             return True
 
         except Exception as e:
@@ -224,65 +249,10 @@ class P2PChat:
             self.connected_to_peer = False 
             return False
 
-    def send_image(self, image_path, student_name):
-        if not self.connected_to_peer:
-            print("❌ Not connected to any peer")
-            return False
-            
-        try:
-            with open(image_path, 'rb') as image_file:
-                image_data = base64.b64encode(image_file.read()).decode('utf-8')
-            
-            file_name = os.path.basename(image_path)
-            
-            message = {
-                "type": "image_message",
-                "student": student_name,
-                "file_name": file_name,
-                "image_data": image_data,
-                "time": "now"
-            }
-            
-            json_message = json.dumps(message)
-            self.client_socket.send(json_message.encode('utf-8'))
-            print(f"✅ You sent an image: {file_name}")
-            return True
-            
-        except Exception as e:
-            print(f"❌ Failed to send image: {e}")
-            return False
-
-    def send_voice_message(self, audio_path, student_name):
-        if not self.connected_to_peer:
-            print("❌ Not connected to any peer")
-            return False
-            
-        try:
-            with open(audio_path, 'rb') as audio_file:
-                audio_data = base64.b64encode(audio_file.read()).decode('utf-8')
-            
-            file_name = os.path.basename(audio_path)
-            
-            message = {
-                "type": "voice_message", 
-                "student": student_name,
-                "file_name": file_name,
-                "audio_data": audio_data,
-                "time": "now"
-            }
-            
-            json_message = json.dumps(message)
-            self.client_socket.send(json_message.encode('utf-8'))
-            print(f"✅ You sent a voice message: {file_name}")
-            return True
-            
-        except Exception as e:
-            print(f"❌ Failed to send voice message: {e}")
-            return False
-
     def send_location(self, latitude, longitude, student_name):
+        """Send location to peer"""
         if not self.connected_to_peer:
-            print("❌ Not connected to any peer")
+            print("❌ Not connected to peer")
             return False
             
         try:
@@ -295,8 +265,14 @@ class P2PChat:
             }
             
             json_message = json.dumps(message)
-            self.client_socket.send(json_message.encode('utf-8'))
-            print(f"✅ You shared location: {latitude}, {longitude}")
+            
+            with self.connection_lock:
+                if self.client_socket:
+                    self.client_socket.send(json_message.encode('utf-8'))
+                elif self.peer_connection:
+                    self.peer_connection.send(json_message.encode('utf-8'))
+                    
+            print(f"✅ Sent location: {latitude}, {longitude}")
             return True
             
         except Exception as e:
@@ -304,6 +280,7 @@ class P2PChat:
             return False
 
     def end_chat(self):
+        """Clean shutdown of P2P chat"""
         print("🛑 Ending chat...")
         self.listening = False
         self.connected_to_peer = False
@@ -316,6 +293,14 @@ class P2PChat:
                 pass
             self.client_socket = None
         
+        # Close peer connection
+        if self.peer_connection:
+            try:
+                self.peer_connection.close()
+            except:
+                pass
+            self.peer_connection = None
+        
         # Close server socket
         if self.server_socket:
             try:
@@ -327,6 +312,6 @@ class P2PChat:
         print("✅ Chat ended cleanly")
 
     def set_message_received_callback(self, callback):
-        """Set callback function to handle received messages in UI"""
+        """Set callback for received messages"""
         self.message_received_callback = callback
         print("✅ Message callback set")
