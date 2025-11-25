@@ -96,8 +96,8 @@ def handle_emergency_contact_add(data, conn):
         
         if not validator.validate_user_id(user_id):
             return "ERROR|Invalid user_id"
-        if contact_type not in ["whatsapp", "email"]:
-            return "ERROR|Use 'whatsapp' or 'email'"
+        if contact_type not in ["WhatsApp", "Email"]:
+            return "ERROR|Use 'WhatsApp' or 'Email'"
         
         cursor = conn.cursor()
         if is_primary.lower() in ["true", "1"]:
@@ -206,9 +206,9 @@ def handle_emergency_trigger(data, conn):
         successful_notifications = 0
         for contact in contacts:
             contact_type, contact_value = contact
-            if contact_type == "whatsapp":
+            if contact_type == "WhatsApp":
                 success, detail = free_emergency_handler.send_whatsapp_free(contact_value, emergency_message)
-            elif contact_type == "email":
+            elif contact_type == "Email":
                 success, detail = free_emergency_handler.send_email_free(contact_value, f"🚨 EMERGENCY - {user_name}", emergency_message)
             
             if success:
